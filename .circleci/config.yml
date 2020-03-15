@@ -1,16 +1,23 @@
-version: 2.1
-orbs:
-  node: circleci/node@1.1.6
+version: 2
 jobs:
   build:
-    executor:
-      name: node/default
+    docker:
+      - image: cibuilds/node:latest
+    working_directory: ~/home/ubuntu/britesiders-frontend
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-workflows:
-    build:
-      jobs:
-        - build
+      - run:
+          name: Install dependencies with NPM
+          command: npm install
+      
+      - run:
+          name: Run test
+          command: npm test
+      
+      - run:          
+          name: Install awscli 
+          command: sudo pip install awscli
+
+      - deploy:
+          name: deploy to AWS
+          command: aws s3 sync . s3://testingexamples
