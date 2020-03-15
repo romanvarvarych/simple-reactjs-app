@@ -10,9 +10,9 @@ jobs:
           name: Install dependencies with NPM
           command: npm install
       
-      - run:
-          name: Run test
-          command: npm test
+#       - run:
+#           name: Run test
+#           command: npm test
       
       - run:          
           name: Install awscli 
